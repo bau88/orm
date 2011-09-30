@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <title> Crear Cliente</title>
+  <meta http-equiv="generator" content="CoffeeCup HTML Editor (www.coffeecup.com)" />
+  <meta name="created" content="sáb, 04 sep 2010 08:26:15 GMT" />
+  <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+</head>
+
+<script type="text/javascript" src="prototype/prototype-1.6.0.3.js" ></script>
+<script language="javascript1.2">
+  function guardarCliente()
+  {	
+  	var nombre 		= document.form.nombre.value;
+	var apellido 	= document.form.apellido.value;
+	var cedula 	= document.form.cedula.value;
+	//var ruc 		= document.form.ruc.value;
+	
+	//var parametro 	= 'operacion=guardar&nombre=' + nombre + '&apellido=' + apellido + '&telefono='+ telefono + '&ruc='+ ruc;
+	var parametro 	= 'operacion=guardar&cedula='+cedula+'&nombre=' + nombre + '&apellido=' + apellido;
+	new Ajax.Request('http://localhost:8080/orm/ClienteABM', {
+        method: 'post',
+        postBody: parametro, 
+        onSuccess: mostrarResultado}
+    );	
+	document.form.cedula.value="";
+	document.form.nombre.value="";
+	document.form.apellido.value="";
+	//document.form.telefono.value="";
+	//document.form.ruc.value="";
+    
+  }
+  
+  function mostrarResultado (transport)
+  {
+  	//falta preparar en la respuesta del servlet
+  	document.getElementById('resultado').innerHTML=transport.responseText;
+  }
+   
+</script>
+<body>
+	<form name="form" action="javascript:guardarCliente()">
+		<table>
+			<tr> <th> Nuevo Cliente </th></tr>
+			<tr> <td> Cedula 		</td><td>	<input type="text" id="cedula" 		name="cedula"> 		</input></td></tr>
+			<tr> <td> Nombre 		</td><td>	<input type="text" id="nombre" 		name="nombre"> 		</input></td></tr>
+			<tr> <td> Apellido 	</td><td>	<input type="text" id="apellido" 	name="apellido">	</input></td></tr>
+			
+			<tr> 
+				<td> <input type="submit" name="Guardar" value="Guardar"> </input> </td>
+				<td> <a href="./indexClientes.jsp"> Regresar </a> </td>
+			</tr>
+		</table>
+	</form>
+	<div id="resultado"></div>
+</body>
+</html>
+
